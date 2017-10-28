@@ -25,7 +25,7 @@ public class Conexion {
     private String url = "localhost";
     private static String database = "datapets";
     private String user = "root";
-    private String password = "";
+    private String password = "root";
     
    public Connection openConexion() throws SQLException, ClassNotFoundException {
       if (cnx == null) {
