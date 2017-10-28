@@ -416,12 +416,11 @@ td a:hover{
 
 .modificar-datos{
     text-align: center;
-    background: #fff;
+    /* background: #fff; */
     color: #007fff;
     text-decoration: underline;
     font-size: 12pt;
     font-weight: bold;
-   
 }
 
 .modificar-datos:hover{
