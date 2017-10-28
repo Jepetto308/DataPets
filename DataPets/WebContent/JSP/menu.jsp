@@ -1,5 +1,7 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
+<script src="Complementos/js/js_franwork/jQuery3.2.js"></script>
+
 <header id="header" class="encabezado">
             <nav class="navH">
                 <div class="logo">
@@ -8,8 +10,8 @@
           
          
                 <div class="logueado">
-                    <label><i class="fa fa-user-circle-o" aria-hidden="true"></i> USUARIO: LUIS JAVIER MORALES BENITEZ</label>
-                    <label>ROL: ROOT</label>
+                    <label><i class="fa fa-user-circle-o" aria-hidden="true"></i> USUARIO: <c:out value="${user.nombre}" /> <c:out value="${user.apellidos}" /></label>
+                    <label>ROL: <c:out value="${user.codigoRol}" /></label>
                 </div>
              </nav>
         </header>
@@ -43,10 +45,11 @@
                     <li><a  href="#"><i class="icono izquierda fa fa-unlock-alt" aria-hidden="true"></i>SEGURIDAD<i class="icono derecha fa fa-chevron-down" aria-hidden="true"></i></a>
                        <ul >
                             <li><a  href="JSP/buscar_roles.jsp">Roles</a></li>
-                            <li><a  href="JSP/buscar_usuarios.jsp">Usuarios</a></li>
+                            <li><a  href="${context}/ControlUsuario">Usuarios</a></li>
                             <li><a  href="JSP/buscar_parametros.jsp">Parametros</a></li>
                          
                        </ul>
                    </li>
+                    <li><a href="${context}/ControlLogin"><i class="icono izquierda fa fa-home" aria-hidden="true"></i>CERRAR SESIÓN</a></li>
                </ul>
         </div>

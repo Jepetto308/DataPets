@@ -4,6 +4,12 @@
     Author     : WILMAR
 --%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Controllers.ControlAccesoPages" %>
+<%
+    ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
+    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+%>
+
 
 <!DOCTYPE html>
 <html>
@@ -36,10 +42,10 @@
             <div class="titulo-lista"><h2>Registro de Clientes</h2></div>
            <div class="div-Dpersonales"> 
                <select class="Iform-empleadoS" name="tipoDocumento">
-                   <option value="cc">cedula de ciudadania</option>
-                    <option value="ti">tarjeta de identidad</option>
-                    <option value="rc">registro civil</option>
-                    <option value="ce">cedula de extranjeria</option>   
+                   <option value="cc" <c:if test="${oCliente.tipoDocumentoCliente == 'cc'}">SELECTED</c:if>>cedula de ciudadania</option>
+                    <option value="ti" <c:if test="${oCliente.tipoDocumentoCliente == 'ti'}">SELECTED</c:if>>tarjeta de identidad</option>
+                    <option value="rc" <c:if test="${oCliente.tipoDocumentoCliente == 'rc'}">SELECTED</c:if>>registro civil</option>
+                    <option value="ce" <c:if test="${oCliente.tipoDocumentoCliente == 'ce'}">SELECTED</c:if>>cedula de extranjeria</option>   
                 </select>
             <label class="Lform-empleado">Tipo de Documento:</label>           
             
@@ -58,7 +64,7 @@
             <input type="text" class="Iform-empleado" minlength="2" maxlength="20" name="segundoApellido" value="<c:out value="${oCliente.segundoApellidoCliente}" />"/>
             <label class="Lform-empleado">Segundo apellido:</label>
             
-            <input type="text" class="Iform-empleado" minlength="5" maxlength="50" name="razonSocial"/>
+            <input type="text" class="Iform-empleado" minlength="5" maxlength="50" name="razonSocial" value="<c:out value="${oCliente.razonSocialCliente}" />"/>
             <label class="Lform-empleado">Razon Social:</label>
          </div> 
         <div class="div-ubicacionF">  
@@ -89,10 +95,10 @@
  
             
             <div class="DB-formEmpleado">
-                <button type="submit" class="btn-formEmpleado1">Nuevo >></button>
+                <button type="submit" class="btn-formEmpleado1" id="btnNuevo">Nuevo >></button>
                 <button type="button" class="btn-formEmpleado2" id="btnGuardar" >Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                 <button type="submit" class="btn-formEmpleado3">Eliminar <i class="fa fa-trash" aria-hidden="true"></i></button>
-                <a href="buscar_clientes.jsp" type="submit" class="btn-formEmpleado4"><i class="fa fa-undo" aria-hidden="true"></i> Volver</i></a>
+                <a href="" onclick="javascript:volver();" class="btn-formEmpleado4"><i class="fa fa-undo" aria-hidden="true"></i> Volver</i></a>
                 
                 <label class="Lform-empleado"><c:out value="${okMessage}" /></label>
                 

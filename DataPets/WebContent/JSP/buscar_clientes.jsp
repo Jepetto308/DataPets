@@ -1,6 +1,11 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="Controllers.ControlAccesoPages" %>
+<%
+    ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
+    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,11 +24,33 @@
         <title>Data Pets</title>
     </head>
     <body class="fondo-menu">
+    
+    
+    <!-- PONERLE HOVER A LA FILA COMPLETA CUANDO LE HAGAN HOVER -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
        
        	<jsp:include page="menu.jsp"></jsp:include>
         <c:set var="context" value="${pageContext.request.contextPath}" />        
         <div class="contenedor-empleado">
-            <form class="form-empleados" name="formListaCliente" id="formListaCliente">
+            <form class="form-empleados" name="formListaCliente" id="formListaCliente" method="post" action="${context}/ControlCliente">
             	<input type="hidden" id="accion" name="accion"> 
             	<input type="hidden" id="hidCliente" name="hidCliente" value=""> 
                 <div class="titulo-lista"><h2>Listado de Clientes</h2></div>

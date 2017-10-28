@@ -11,6 +11,10 @@ $(document).ready(function(){
 	});
 });
 
+function volver(){
+	window.history.back();
+}
+
 /*modal pais de cliente*/
 var paginamodal;
 function modalCliente_pais() {

@@ -32,7 +32,7 @@ public class Conexion {
          try {
             Class.forName("com.mysql.jdbc.Driver");
             cnx = DriverManager.getConnection("jdbc:mysql://"+url+"/"+database, user, password);
-            System.out.println("Conectado a " + url + " .....Ok");
+//            System.out.println("Conectado a " + url + " .....Ok");
          } catch (SQLException ex) {
             throw new SQLException(ex);
          } catch (ClassNotFoundException ex) {
@@ -46,7 +46,7 @@ public class Conexion {
            if(cnx != null){
                cnx.close();
            }
-           System.out.println("Cerrando conexion a " + url + " .....Ok");
+//           System.out.println("Cerrando conexion a " + url + " .....Ok");
        } catch (SQLException ex) {
            System.out.println(ex);
        }
