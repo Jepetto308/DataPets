@@ -36,16 +36,18 @@
         <jsp:include page="menu.jsp"></jsp:include>
         <c:set var="context" value="${pageContext.request.contextPath}" />
         <form class="formulario-clientes" name="formCliente" id="formCliente" action="${context}/ControlCliente" method="POST">
+            
+            <input type="hidden" name="contexto" id="contexto" value="${context}"/>
             <input type="hidden" name="accion" id="accion" value=""/>
             <input type="hidden" name="hidCliente" id="hidCliente" value="<c:out value="${oCliente.idCliente}" />"/>
             
             <div class="titulo-lista"><h2>Registro de Clientes</h2></div>
            <div class="div-Dpersonales"> 
                <select class="Iform-empleadoS" name="tipoDocumento">
-                   <option value="cc" <c:if test="${oCliente.tipoDocumentoCliente == 'cc'}">SELECTED</c:if>>cedula de ciudadania</option>
-                    <option value="ti" <c:if test="${oCliente.tipoDocumentoCliente == 'ti'}">SELECTED</c:if>>tarjeta de identidad</option>
-                    <option value="rc" <c:if test="${oCliente.tipoDocumentoCliente == 'rc'}">SELECTED</c:if>>registro civil</option>
-                    <option value="ce" <c:if test="${oCliente.tipoDocumentoCliente == 'ce'}">SELECTED</c:if>>cedula de extranjeria</option>   
+                   <option value="cc" <c:if test="${oCliente.tipoDocumentoCliente == 'cc'}">SELECTED</c:if>>Cedula de ciudadania</option>
+                    <option value="ti" <c:if test="${oCliente.tipoDocumentoCliente == 'ti'}">SELECTED</c:if>>Tarjeta de identidad</option>
+                    <option value="rc" <c:if test="${oCliente.tipoDocumentoCliente == 'rc'}">SELECTED</c:if>>Registro civil</option>
+                    <option value="ce" <c:if test="${oCliente.tipoDocumentoCliente == 'ce'}">SELECTED</c:if>>Cedula de extranjeria</option>   
                 </select>
             <label class="Lform-empleado">Tipo de Documento:</label>           
             
@@ -68,28 +70,30 @@
             <label class="Lform-empleado">Razon Social:</label>
          </div> 
         <div class="div-ubicacionF">  
-            <input type="text" class="Iform-ClientePais1" minlength="3" maxlength="3" id="cPais" value="" onkeyup="activar_input()"/>
-            <input type="text" class="Iform-ClientePais2" minlength="3" maxlength="3" id="nPais"  disabled/><input type="image" class="modal-pais" src="Complementos/Imagenes/lupa de pais.png" name= "codigoPais" onclick="modalCliente_pais()" />
+            <input type="text" class="Iform-ClientePais1" minlength="3" maxlength="3" name="codigoPais" id="codigoPais" value="<c:out value="${oCliente.codigoPais}" />" />
+            <input type="text" class="Iform-ClientePais2" minlength="3" maxlength="3" id="nombrePais" name="nombrePais" value="<c:out value="${oCliente.nombrePais}" />"/>
+            <input type="image" class="modal-pais" src="Complementos/Imagenes/lupa de pais.png" id="emergentePais" />
             <label class="Lform-empleado">Pais:</label>
             
-            <input type="text" class="Iform-ClienteMunicipio1" minlength="3" maxlength="3" id="cMun" value="" onkeyup="activar_inputM()"/>
-            <input type="text" class="Iform-ClienteMunicipio2" minlength="3" maxlength="3" id="nMun"  disabled/><input type="image" class="modal-municipio" src="Complementos/Imagenes/municipioU.png" name = "codigoMunicipio" onclick="modalCliente_municipio()" />
+            <input type="text" class="Iform-ClienteMunicipio1" minlength="3" maxlength="5" id="codigoMunicipio" name="codigoMunicipio" value="<c:out value="${oCliente.codigoMunicipio}" />" />
+            <input type="text" class="Iform-ClienteMunicipio2" minlength="3" maxlength="60" id="nombreMunicipio" name="nombreMunicipio" value="<c:out value="${oCliente.nombreMunicipio}" />"/>
+            <input type="image" class="modal-municipio" src="Complementos/Imagenes/municipioU.png" id="emergenteMunicipio"  />
             <label class="Lform-empleado">Municipio:</label>
          </div>   
             <div class="div-Dadicionales" >
-                <input type="text" class="Iform-empleado" minlength="5 " maxlength="25" name="direccion"/>
+                <input type="text" class="Iform-empleado" minlength="5 " maxlength="25" name="direccion" value="<c:out value="${oCliente.direccionCliente}" />"/>
             <label class="Lform-empleado">Direccion:</label>
             
-            <input type="tel" class="Iform-empleado" minlength="7" maxlength="20" name="telefono"/>
+            <input type="tel" class="Iform-empleado" minlength="7" maxlength="20" name="telefono" value="<c:out value="${oCliente.telefonoCliente}" />" />
             <label class="Lform-empleado">Telefono:</label>
             
-            <input type="tel" class="Iform-empleado" minlength="10" maxlength="20" name="celular"/>
+            <input type="tel" class="Iform-empleado" minlength="10" maxlength="20" name="celular" value="<c:out value="${oCliente.celularCliente}" />" />
             <label class="Lform-empleado">Celular:</label>
             
-            <input type="text" class="Iform-empleado" minlength="8" maxlength="20" name="fax"/>
+            <input type="text" class="Iform-empleado" minlength="8" maxlength="20" name="fax" value="<c:out value="${oCliente.faxCliente}" />" />
             <label class="Lform-empleado">Fax:</label>
             
-            <input type="email" class="Iform-empleado" minlength="8" maxlength="25" name="email"/>
+            <input type="email" class="Iform-empleado" minlength="8" maxlength="25" name="email" value="<c:out value="${oCliente.emailCliente}" />"/>
             <label class="Lform-empleado">E-mail:</label>
          </div>   
  

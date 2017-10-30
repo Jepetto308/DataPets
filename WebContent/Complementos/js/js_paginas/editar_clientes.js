@@ -1,4 +1,9 @@
+var contexto;
+
 $(document).ready(function(){
+
+	contexto = $("#contexto").val();
+	$("#nombrePais").attr('readonly', true);;
 	
 	$("#btnGuardar").click(function(){
 		$("#accion").val("G");
@@ -9,16 +14,97 @@ $(document).ready(function(){
 		$("#accion").val("N");
 		$("#formCliente").submit();
 	});
+
+	$("#emergentePais").click(function (event){
+		event.preventDefault();
+		modalPais();
+	});
+	
+	$("#codigoPais").change(function (){
+		codigoPaisChange();
+	});
+	
+	$("#emergenteMunicipio").click(function (event){
+		event.preventDefault();
+		modalMunicipio();
+	});
+	
+	$("#codigoMunicipio").change(function (){
+		codigoMunicipioChange();
+	});
+	
 });
 
 function volver(){
 	window.history.back();
 }
 
+function codigoPaisChange(){
+	
+	$("#codigoPais").val($("#codigoPais").val().toUpperCase());
+	if($("#codigoPais").val() == ""){
+		$("#nombrePais").val("");
+		return;
+	}
+	
+	$.ajax({url: contexto + "/ControlPais?accion=C&codigoPais="+$("#codigoPais").val(),
+	    method: "GET",
+	    success: function (objPais) {
+	        if (objPais == "N") {
+	        	alert("No existe algun pais con codigo: "+$("#codigoPais").val());
+//	        	$("#codigoPais").val("");
+	        	$("#codigoPais").focus();
+	        	$("#nombrePais").val("");
+	        } else {
+	        	objPais = JSON.parse(objPais);
+	        	$("#nombrePais").val(objPais.nombrePais);
+	        }
+	}});
+}
+
+function modalPais() {
+	var emer = window.open(contexto+"/ControlPais",'_blank','left=120,top=100,width=980,height=440');
+}
+
+
+function codigoMunicipioChange(){
+	
+	$("#codigoMunicipio").val($("#codigoMunicipio").val().toUpperCase());
+	if($("#codigoMunicipio").val() == ""){
+		$("#nombreMunicipio").val("");
+		return;
+	}
+	
+	$.ajax({url: contexto + "/ControlMunicipio?accion=C&codigoMunicipio="+$("#codigoMunicipio").val(),
+	    method: "GET",
+	    success: function (objMunicipio) {
+	        if (objMunicipio == "N") {
+	        	alert("No existe algun municipio con codigo: "+$("#codigoMunicipio").val());
+//	        	$("#codigoMunicipio").val("");
+	        	$("#codigoMunicipio").focus();
+	        	$("#nombreMunicipio").val("");
+	        } else {
+	        	objMunicipio = JSON.parse(objMunicipio);
+	        	$("#nombreMunicipio").val(objMunicipio.nombreMunicipio);
+	        }
+	}});
+}
+
+function modalMunicipio() {
+	var emer = window.open(contexto+"/ControlMunicipio",'_blank','left=120,top=100,width=980,height=440');
+}
+
+
+
+
+
+
+
+
 /*modal pais de cliente*/
 var paginamodal;
 function modalCliente_pais() {
-paginamodal = window.open ('modal_pais_cliente.jsp','_blank','left=120,top=100,width=980,height=440');
+paginamodal = window.open (contexto+"/ControlPais",'_blank','left=120,top=100,width=980,height=440');
 
 }
 

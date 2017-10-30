@@ -21,6 +21,25 @@
         <url-pattern>/ControlLogin</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>ControlPais</servlet-name>
+        <servlet-class>Controllers.ControlPais</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ControlPais</servlet-name>
+        <url-pattern>/ControlPais</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ControlMunicipio</servlet-name>
+        <servlet-class>Controllers.ControlMunicipio</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ControlMunicipio</servlet-name>
+        <url-pattern>/ControlMunicipio</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>ControlUsuario</servlet-name>
@@ -31,6 +50,9 @@
         <servlet-name>ControlUsuario</servlet-name>
         <url-pattern>/ControlUsuario</url-pattern>
     </servlet-mapping>
+    
+    
+    
     
     <error-page>
 	  <exception-type>ServletException</exception-type>

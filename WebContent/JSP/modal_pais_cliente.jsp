@@ -4,70 +4,59 @@
     Author     : WILMAR
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Controllers.ControlAccesoPages" %>
+<%
+    ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
+    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
          <meta name="viewport" content="width-device-width, user-scalable-no, inital-scale=1.0, maximun-scale=1.0, minumun-scale=1.0">
       
-         <link rel="shortcut icon" href="../Complementos/Imagenes/favicon.png" /> 
+         <link rel="shortcut icon" href="Complementos/Imagenes/favicon.png" /> 
         <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="../Complementos/css/cssFontAwesome/font-awesome.min.css"/>
-        <link rel="stylesheet" type="text/css" href="../Complementos/css/CssPets.css">
+        <link rel="stylesheet" type="text/css" href="Complementos/css/cssFontAwesome/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="Complementos/css/CssPets.css">
         
         <title>Data Pets</title>
     </head>
     <body class="fondo-menu">
-       
- 
+        <c:set var="context" value="${pageContext.request.contextPath}" />
+        <input type="hidden" value="" id="codigoPaisRetorno">
         
         <div class="contenedor-clienteIC">
             <form class="form-usuarios">
                 <div class="titulo-lista"><h2>Lista de Paises para clientes</h2></div>
-                
                 <label class="Lfiltro1-MPC">Codigo pais:</label>
                 <input class="filtrar1-MPC" maxlength="4" name="codigoPais">
                 <label class="Lfiltro2-MPC">Nombre pais:</label>
                 <input class="filtrar2-MPC" maxlength="20" name="nombrePais">
-                <a   href="#" class="boton-formFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
-<!--                <button type="submit" class="btn-exportarUsuario">Exportar <i class="exportar fa fa-clipboard" aria-hidden="true"></i></button>
-                <a   href="#" class="boton-formulario">Nuevo Usuario <i class="fa fa-user" aria-hidden="true"></i> </a>-->
+                <a href="#" class="boton-formFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
                 
     <table class="TablaRegistrosCitas-cliente">
 	<tbody>
     
-
         <tr class="EncabezadoRegistros">
-			
-
 			<td class="cod_Cliente">Codigo Pais</td>
 			<td  class="Nom_ClienteIcitas">Nombre Pais</td>
-
-
-               <td  class="campo-modificar"><i class="modificarICO fa fa-recycle" aria-hidden="true"></i></td>
-			 
-			
-			
-
-            
+            <td  class="campo-modificar"><i class="modificarICO fa fa-recycle" aria-hidden="true"></i></td>
 		</tr>
-
-
 		
-                <tr class="listadoUsuario">
-                    <td class="listaUsu">1017</td>
-                    <td class="listaUsu">Colombia</td>
-      
-			
-<td class="modificar-datos"><a href="" class="modificar-datosA">Recuperar</a></td>
-		</tr>
-
-	
+	    <c:forEach items="${listaPais}" var="objPais">
+	        <tr class="listadoUsuario">
+	            <td class="listaUsu"><c:out value="${objPais.codigoPais}"/></td>
+	            <td class="listaUsu" id="nombrePais<c:out value="${objPais.codigoPais}"/>" ><c:out value="${objPais.nombrePais}"/></td>
+				<td class="modificar-datos"><a href="#" class="modificar-datosA" onclick="javascript:recuperarPais('<c:out value="${objPais.codigoPais}"/>')">Recuperar</a></td>
+			</tr>
+		</c:forEach>
 
 	</tbody>
 	</table>
@@ -80,9 +69,8 @@
                 <input ID="TextBox9" type='hidden' runat="server" name='navegador_paginaInicial' value='1'>
                 <input ID="TextBox10" type='hidden' runat="server" name='navegador_paginaFinal' value='3'>
                 <table border='0'><tr><td><font color='red'>
-                <b>1</b></font></td><td><a href='javascript:navegadorClick(2)'>2</a></td><td><a href='javascript:navegadorClick(3)'>3</a></td><td>...</td><td><a href='javascript:navegadorClick(2)'>Â»</a></td><td><a href='javascript:navegadorClick(158)'>Â»Â»</a></td><td>
+                <b>1</b></font></td><td><a href='javascript:navegadorClick(2)'>2</a></td><td><a href='javascript:navegadorClick(3)'>3</a></td><td>...</td><td><a href='javascript:navegadorClick(2)'>»</a></td><td><a href='javascript:navegadorClick(158)'>»»</a></td><td>
                             <input ID="TextBox11" class="irA" type='button' runat="server" name='irA' value='Ir A' onclick='javascript: navegadorClick(this.form.navegador_pagina.value);'>
-                                      
 			</td>
 		</tr>
 	</tbody>
@@ -90,13 +78,9 @@
             </form>
         </div>
         
-      
-	
-       
-    
-       
-        <script src="../Complementos/js/js_franwork/headroom.min.js"></script>
-        <script src="../Complementos/js/js_franwork/jQuery3.2.js"></script>
-        <script src="../Complementos/js/js_paginas/JSdataPets.js"></script>
+        <script src="Complementos/js/js_franwork/headroom.min.js"></script>
+        <script src="Complementos/js/js_franwork/jQuery3.2.js"></script>
+        <script src="Complementos/js/js_paginas/JSdataPets.js"></script>
+        <script src="Complementos/js/js_paginas/modal_pais_cliente.js"></script>
     </body>
 </html>
