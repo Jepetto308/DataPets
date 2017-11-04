@@ -3,7 +3,8 @@ var contexto;
 $(document).ready(function(){
 
 	contexto = $("#contexto").val();
-	$("#nombrePais").attr('readonly', true);;
+	$("#nombrePais").attr('readonly', true);
+	$("#nombreMunicipio").attr('readonly', true);
 	
 	$("#btnGuardar").click(function(){
 		$("#accion").val("G");

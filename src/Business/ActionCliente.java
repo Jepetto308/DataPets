@@ -11,7 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import entity.Cliente;
+import entity.Filtro;
 import net.sf.jasperreports.engine.JRException;
 import DAO.DaoCliente;
 import Utils.Conexion;
@@ -20,11 +23,36 @@ import Utils.GenerarReporte;;
 public class ActionCliente {
 	private DaoCliente oDaoCliente = new DaoCliente();
 	
-	public List listarClientes(){
+	public List listarClientes(HttpServletRequest request){
 		Conexion oConexion = new Conexion();
 		List lista = new ArrayList();
+		List<Filtro> filtros = new ArrayList();
+		
+		Filtro oFiltro = new Filtro();
+		String numeroDocumento = request.getParameter("f_numeroDocumento");
+		String nombreCliente = request.getParameter("f_nombreCliente");
+		
+		if(numeroDocumento != null && !numeroDocumento.equals("")) {
+			oFiltro.setCampo("A.NUMERO_IDENTIFICACION_CLIENTE");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(numeroDocumento+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_numeroDocumento", numeroDocumento);
+		}
+		
+		if(nombreCliente != null && !nombreCliente.equals("")) {
+			oFiltro = new Filtro();
+			oFiltro.setCampo("CONCAT(A.PRIMER_NOMBRE_CLIENTE,' ',A.OTROS_NOMBRES_CLIENTE)");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(nombreCliente+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_nombreCliente", nombreCliente);
+		}
+		
         try {
-			lista = oDaoCliente.listarClientes(oConexion);
+			lista = oDaoCliente.listarClientes(oConexion, filtros);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,10 +81,37 @@ public class ActionCliente {
 	}
 	
 	  public void exportar(String sRutaDirectorioJasper, Map parametros, OutputStream out, boolean maps, String formato){
-	    	try {
+	    	
+		  	HttpServletRequest request = (HttpServletRequest) parametros.get("request");
+		  	List<Filtro> filtros = new ArrayList();
+			
+			Filtro oFiltro = new Filtro();
+			String numeroDocumento = request.getParameter("f_numeroDocumento");
+			String nombreCliente = request.getParameter("f_nombreCliente");
+			
+			if(numeroDocumento != null && !numeroDocumento.equals("")) {
+				oFiltro.setCampo("A.NUMERO_IDENTIFICACION_CLIENTE");
+				oFiltro.setOperador("LIKE");
+				oFiltro.setValor(numeroDocumento+'%');
+				filtros.add(oFiltro);
+				
+				request.setAttribute("f_numeroDocumento", numeroDocumento);
+			}
+			
+			if(nombreCliente != null && !nombreCliente.equals("")) {
+				oFiltro = new Filtro();
+				oFiltro.setCampo("CONCAT(A.PRIMER_NOMBRE_CLIENTE,' ',A.OTROS_NOMBRES_CLIENTE)");
+				oFiltro.setOperador("LIKE");
+				oFiltro.setValor(nombreCliente+'%');
+				filtros.add(oFiltro);
+				
+				request.setAttribute("f_nombreCliente", nombreCliente);
+			}
+		  	
+		  	try {
 	            
 	    		Conexion oConexion = new Conexion();
-	    		List listaClientes = oDaoCliente.listarClientes(oConexion);
+	    		List listaClientes = oDaoCliente.listarClientes(oConexion,filtros);
 	    		
 				GenerarReporte.exportar(sRutaDirectorioJasper+"/reporteClientes.jasper", listaClientes, parametros, out, maps, formato);
 			} catch (JRException e) {

@@ -9,6 +9,11 @@ $(document).ready(function(){
 		$("#accion").val("N");
 		$("#formListaCliente").submit();
 	});
+	
+	$("#btnFiltrar").click(function (){
+		$("#accion").val("L");
+		$("#formListaCliente").submit();
+	});
 });
 
 function editarCliente(idCliente){

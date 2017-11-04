@@ -24,29 +24,7 @@
         <title>Data Pets</title>
     </head>
     <body class="fondo-menu">
-    
-    
-    <!-- PONERLE HOVER A LA FILA COMPLETA CUANDO LE HAGAN HOVER -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-       
+          
        	<jsp:include page="menu.jsp"></jsp:include>
         <c:set var="context" value="${pageContext.request.contextPath}" />        
         <div class="contenedor-empleado">
@@ -56,48 +34,42 @@
                 <div class="titulo-lista"><h2>Listado de Clientes</h2></div>
                 
                 <label class="Lfiltro1">Identificacion:</label>
-                <input class="filtrar1" minlength="6" maxlength="15" name="numeroDocumento">
-                <label class="Lfiltro2">Nombre:</label>
+                <input class="filtrar1" minlength="6" maxlength="15" name="f_numeroDocumento" value="<c:out value="${f_numeroDocumento}" />" >
+                <label class="Lfiltro2">Nombre Completo:</label>
                 <%-- concatenar nombre completo en la DB tabla clientes--%>
-                <input class="filtrar2" minlength="15" maxlength="45" name="nombreCliente">
-                <a   href="#" class="boton-formFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
+                <input class="filtrar2" minlength="15" maxlength="45" name="f_nombreCliente" value="<c:out value="${f_nombreCliente}" />">
+                <a id="btnFiltrar" href="#" class="boton-formFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
                 <button type="button" id="exportar" class="btn-exportarEmpleado">Exportar <i class="exportar fa fa-clipboard" aria-hidden="true"></i></button>
                 <a   href="#" id="nuevo" class="boton-formulario">Nuevo Cliente <i class="fa fa-users" aria-hidden="true"></i> </a>
                 
     <table class="TablaRegistros">
 	<tbody>
-    
 
         <tr class="EncabezadoRegistros" name="tablaClientes">
-            
                         
 <!--			<td class="TD_Clientes">Tipo de Documento:</td>-->
 			<td class="ID_Clientes">Numero de Identificación</td>
 			<td  class="Nom_Clientes">Primer Nombre</td>
-<!--                        <td  class="ONom_Clientes">Otros Nombre:</td>-->
+<!--                    <td  class="ONom_Clientes">Otros Nombre:</td>-->
                         <td  class="Ape_Clientes">Primer Apellido</td>
                         <td  class="SApe_Clientes">Segundo Apellido</td>
                         
-<!--                        <td  class="pais-cliente">Pais:</td>
+<!--                    <td  class="pais-cliente">Pais:</td>
                         <td  class="mun-cliente">Municipio:</td>-->
                         
-<!--                        <td  class="Dir_Clientes">Direccion:</td>-->
+<!--                    <td  class="Dir_Clientes">Direccion:</td>-->
                         <td  class="TEL_Clientes">Telefono</td>
                         <td  class="CEL_Clientes">Celular</td>
-<!--                        <td  class="Fax_Clientes">Fax:</td>
+<!--                    <td  class="Fax_Clientes">Fax:</td>
                         <td  class="E-mail_Clientes">E-mail:</td>-->
                 
- <td  class="campo-modificar"><i class="modificarICO fa fa-wrench" aria-hidden="true"></i></td>
-			 
-			
-			
+<!--  <td  class="campo-modificar"><i class="modificarICO fa fa-wrench" aria-hidden="true"></i></td> -->
 
-            
 		</tr>
 
 
 		<c:forEach items="${listaClientes}" var="obj">
-            <tr class="listadoEmpleado">
+            <tr class="listadoEmpleado" onclick="javascript:editarCliente(<c:out value="${obj.idCliente}" />)">
 				 <td class="listaEmp">${obj.numeroDocumentoCliente}</td>
 	             <td class="listaEmp">${obj.primerNombreCliente}</td>
 	             <td class="listaEmp">${obj.primerApellidoCliente}</td>
@@ -105,7 +77,7 @@
 	             <td class="listaEmp">${obj.telefonoCliente}</td>
 	             <td class="listaEmp">${obj.celularCliente}</td>
 				
-				<td class="modificar-datos"><a href="javascript:editarCliente(<c:out value="${obj.idCliente}" />)" class="modificar-datosA">Modificar</a></td>
+<%-- 				<td class="modificar-datos"><a href="javascript:editarCliente(<c:out value="${obj.idCliente}" />)" class="modificar-datosA">Modificar</a></td> --%>
 			</tr>
         </c:forEach>
 
