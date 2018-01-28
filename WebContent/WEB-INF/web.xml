@@ -51,7 +51,25 @@
         <url-pattern>/ControlUsuario</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>ControlEmpleado</servlet-name>
+        <servlet-class>Controllers.ControlEmpleado</servlet-class>
+    </servlet>
     
+    <servlet-mapping>
+        <servlet-name>ControlEmpleado</servlet-name>
+        <url-pattern>/ControlEmpleado</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ControlCita</servlet-name>
+        <servlet-class>Controllers.ControlCita</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ControlCita</servlet-name>
+        <url-pattern>/ControlCita</url-pattern>
+    </servlet-mapping>
     
     
     <error-page>
@@ -61,7 +79,7 @@
     
     <session-config>
         <session-timeout>
-            10
+            15
         </session-timeout>
     </session-config>
     <welcome-file-list>

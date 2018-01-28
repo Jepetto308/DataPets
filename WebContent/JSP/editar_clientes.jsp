@@ -7,7 +7,7 @@
 <%@ page import="Controllers.ControlAccesoPages" %>
 <%
     ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
-    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+	oControlAccesoPages.validatePemisions(request, response, oControlAccesoPages.getMapPermisos(),oControlAccesoPages.getNoPermisos());
 %>
 
 
@@ -80,7 +80,7 @@
             <input type="image" class="modal-municipio" src="Complementos/Imagenes/municipioU.png" id="emergenteMunicipio"  />
             <label class="Lform-empleado">Municipio:</label>
          </div>   
-            <div class="div-Dadicionales" >
+         <div class="div-Dadicionales" >
                 <input type="text" class="Iform-empleado" minlength="5 " maxlength="25" name="direccion" value="<c:out value="${oCliente.direccionCliente}" />"/>
             <label class="Lform-empleado">Direccion:</label>
             
@@ -95,13 +95,14 @@
             
             <input type="email" class="Iform-empleado" minlength="8" maxlength="25" name="email" value="<c:out value="${oCliente.emailCliente}" />"/>
             <label class="Lform-empleado">E-mail:</label>
+<!--             <label class="Lform-empleado" style="color: red;">Campos marcados con (*) son Obligatorios</label> -->
          </div>   
  
             
             <div class="DB-formEmpleado">
-                <button type="submit" class="btn-formEmpleado1" id="btnNuevo">Nuevo >></button>
+                <button type="button" class="btn-formEmpleado1" id="btnNuevo">Nuevo >></button>
                 <button type="button" class="btn-formEmpleado2" id="btnGuardar" >Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-                <button type="submit" class="btn-formEmpleado3">Eliminar <i class="fa fa-trash" aria-hidden="true"></i></button>
+                <button type="button" class="btn-formEmpleado3" id="btnEliminar">Eliminar <i class="fa fa-trash" aria-hidden="true"></i></button>
                 <a href="" onclick="javascript:volver();" class="btn-formEmpleado4"><i class="fa fa-undo" aria-hidden="true"></i> Volver</i></a>
                 
                 <label class="Lform-empleado"><c:out value="${okMessage}" /></label>

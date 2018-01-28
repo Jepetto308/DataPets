@@ -3,7 +3,7 @@
 <%@ page import="Controllers.ControlAccesoPages" %>
 <%
     ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
-    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+	oControlAccesoPages.validatePemisions(request, response, oControlAccesoPages.getMapPermisos(),oControlAccesoPages.getNoPermisos());
 %>
 
 <!DOCTYPE html>
@@ -28,9 +28,10 @@
        	<jsp:include page="menu.jsp"></jsp:include>
         <c:set var="context" value="${pageContext.request.contextPath}" />        
         <div class="contenedor-empleado">
-            <form class="form-empleados" name="formListaCliente" id="formListaCliente" method="post" action="${context}/ControlCliente">
+            <form class="form-empleados" name="formLista" id="formLista" method="post" action="${context}/ControlCliente">
             	<input type="hidden" id="accion" name="accion"> 
             	<input type="hidden" id="hidCliente" name="hidCliente" value=""> 
+            	
                 <div class="titulo-lista"><h2>Listado de Clientes</h2></div>
                 
                 <label class="Lfiltro1">Identificacion:</label>
@@ -81,29 +82,14 @@
 			</tr>
         </c:forEach>
 
-	</tbody>
-	</table>
-			</td>
-		</tr>
-		<tr>
-			<td align=right>
-        	<input ID="TextBox7" type='hidden' runat="server" name='navegador_numeroPaginas' value='158'> 
-                <input ID="TextBox8" type='hidden' runat="server" name='navegador_paginaActual' value='1'>
-                <input ID="TextBox9" type='hidden' runat="server" name='navegador_paginaInicial' value='1'>
-                <input ID="TextBox10" type='hidden' runat="server" name='navegador_paginaFinal' value='3'>
-                <table border='0'><tr><td><font color='red'>
-                <b>1</b></font></td><td><a href='javascript:navegadorClick(2)'>2</a></td><td><a href='javascript:navegadorClick(3)'>3</a></td><td>...</td><td><a href='javascript:navegadorClick(2)'>»</a></td><td><a href='javascript:navegadorClick(158)'>»»</a></td><td>
-                            <input ID="TextBox11" class="irA" type='button' runat="server" name='irA' value='Ir A' onclick='javascript: navegadorClick(this.form.navegador_pagina.value);'>
-                                      
-			</td>
-		</tr>
-	</tbody>
-</table>
-            </form>
-        </div>
+		</tbody>
+		</table>
+		
+		<jsp:include page="paginador.jsp"></jsp:include>
+		
+	</form>
+</div>
         
-    
-       
         <script src="Complementos/js/js_franwork/headroom.min.js"></script>
         <script src="Complementos/js/js_franwork/jQuery3.2.js"></script>
         <script src="Complementos/js/js_paginas/JSdataPets.js"></script>

@@ -8,7 +8,7 @@
 <%@ page import="Controllers.ControlAccesoPages" %>
 <%
     ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
-    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+	oControlAccesoPages.validatePemisions(request, response, oControlAccesoPages.getMapPermisos(),oControlAccesoPages.getNoPermisos());
 %>
 
 <!DOCTYPE html>
@@ -33,13 +33,13 @@
         <input type="hidden" value="" id="codigoPaisRetorno">
         
         <div class="contenedor-clienteIC">
-            <form class="form-usuarios">
-                <div class="titulo-lista"><h2>Lista de Paises para clientes</h2></div>
+            <form class="form-usuarios" id="formLista" name="formLista">
+                <div class="titulo-lista"><h2>Lista de Paises</h2></div>
                 <label class="Lfiltro1-MPC">Codigo pais:</label>
-                <input class="filtrar1-MPC" maxlength="4" name="codigoPais">
+                <input class="filtrar1-MPC" maxlength="4" name="f_codigoPais" id="f_codigoPais" value="<c:out value="${f_codigoPais}" />">
                 <label class="Lfiltro2-MPC">Nombre pais:</label>
-                <input class="filtrar2-MPC" maxlength="20" name="nombrePais">
-                <a href="#" class="boton-formFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
+                <input class="filtrar2-MPC" maxlength="20" name="f_nombrePais" id="f_nombrePais" value="<c:out value="${f_nombrePais}" />">
+                <a href="#" class="boton-formFiltrar" id="btnFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
                 
     <table class="TablaRegistrosCitas-cliente">
 	<tbody>
@@ -47,35 +47,24 @@
         <tr class="EncabezadoRegistros">
 			<td class="cod_Cliente">Codigo Pais</td>
 			<td  class="Nom_ClienteIcitas">Nombre Pais</td>
-            <td  class="campo-modificar"><i class="modificarICO fa fa-recycle" aria-hidden="true"></i></td>
+<!--             <td  class="campo-modificar"><i class="modificarICO fa fa-recycle" aria-hidden="true"></i></td> -->
 		</tr>
 		
 	    <c:forEach items="${listaPais}" var="objPais">
-	        <tr class="listadoUsuario">
+	        <tr class="listadoUsuario listadoEmpleado" onclick="javascript:recuperarPais('<c:out value="${objPais.codigoPais}"/>')">
 	            <td class="listaUsu"><c:out value="${objPais.codigoPais}"/></td>
 	            <td class="listaUsu" id="nombrePais<c:out value="${objPais.codigoPais}"/>" ><c:out value="${objPais.nombrePais}"/></td>
-				<td class="modificar-datos"><a href="#" class="modificar-datosA" onclick="javascript:recuperarPais('<c:out value="${objPais.codigoPais}"/>')">Recuperar</a></td>
+<%-- 				<td class="modificar-datos"><a href="#" class="modificar-datosA" onclick="javascript:recuperarPais('<c:out value="${objPais.codigoPais}"/>')">Recuperar</a></td> --%>
 			</tr>
 		</c:forEach>
 
 	</tbody>
 	</table>
-			</td>
-		</tr>
-		<tr>
-			<td align=right>
-        	<input ID="TextBox7" type='hidden' runat="server" name='navegador_numeroPaginas' value='158'> 
-                <input ID="TextBox8" type='hidden' runat="server" name='navegador_paginaActual' value='1'>
-                <input ID="TextBox9" type='hidden' runat="server" name='navegador_paginaInicial' value='1'>
-                <input ID="TextBox10" type='hidden' runat="server" name='navegador_paginaFinal' value='3'>
-                <table border='0'><tr><td><font color='red'>
-                <b>1</b></font></td><td><a href='javascript:navegadorClick(2)'>2</a></td><td><a href='javascript:navegadorClick(3)'>3</a></td><td>...</td><td><a href='javascript:navegadorClick(2)'>»</a></td><td><a href='javascript:navegadorClick(158)'>»»</a></td><td>
-                            <input ID="TextBox11" class="irA" type='button' runat="server" name='irA' value='Ir A' onclick='javascript: navegadorClick(this.form.navegador_pagina.value);'>
-			</td>
-		</tr>
-	</tbody>
-</table>
-            </form>
+	
+	<%// Paginador %>
+	<jsp:include page="paginador.jsp"></jsp:include>
+	
+</form>
         </div>
         
         <script src="Complementos/js/js_franwork/headroom.min.js"></script>

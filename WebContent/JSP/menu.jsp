@@ -24,14 +24,14 @@
                    <li><a href="#"><i class="icono izquierda fa fa-home" aria-hidden="true"></i>INICIO</a></li>
                    <li><a  href="#"><i class="icono izquierda fa fa-user-circle" aria-hidden="true"></i>ENTIDADES<i class="icono derecha fa fa-chevron-down" aria-hidden="true"></i></a>
                        <ul >
-                            <li><a  href="JSP/buscar_empleados.jsp">Empleados</a></li>
+                            <li><a  href="${context}/ControlEmpleado">Empleados</a></li>
                             <li><a  href="${context}/ControlCliente">Clientes</a></li>
                          
                        </ul>
                    </li>
                    <li><a  href="#"><i class="icono izquierda fa fa-calendar" aria-hidden="true"></i>CITAS<i class="icono derecha fa fa-chevron-down" aria-hidden="true"></i></a>
                         <ul >
-                            <li><a href="JSP/buscar_citas.jsp">Asignacion de citas</a></li>
+                            <li><a href="${context}/ControlCita">Asignacion de citas</a></li>
                             
                          
                        </ul>

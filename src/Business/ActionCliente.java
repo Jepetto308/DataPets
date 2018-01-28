@@ -1,6 +1,7 @@
 package Business;
 
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -52,7 +53,31 @@ public class ActionCliente {
 		}
 		
         try {
-			lista = oDaoCliente.listarClientes(oConexion, filtros);
+        	
+			int paginaActual = request.getParameter("f_paginaActual") != null && !request.getParameter("f_paginaActual").equals("") ? 
+					Integer.parseInt(request.getParameter("f_paginaActual")) : 1;
+			int paginaIrA = request.getParameter("paginaIrA") != null && !request.getParameter("paginaIrA").equals("") ? 
+					Integer.parseInt(request.getParameter("paginaIrA")) : 0;
+			if(paginaIrA > 0) {
+				paginaActual = paginaIrA;
+			}
+			int tamanioPagina = 10;
+			int numeroRegistros = oDaoCliente.numeroRegistrosCliente(oConexion, filtros);
+			int cantidadPaginas = (new BigDecimal(""+numeroRegistros).divide(new BigDecimal("10"),0,0).intValue()); 
+			if(filtros.size() > 0 && cantidadPaginas <= 1) {
+				paginaActual = 0;
+			}
+			paginaActual = paginaActual >= 1 ? paginaActual : cantidadPaginas;
+			int hasta = (paginaActual >= 1 ? paginaActual - 1: 1) * tamanioPagina;
+        	hasta = hasta >= 10 ? hasta : 0;
+        	
+        	request.setAttribute("f_paginaActual", paginaActual);
+        	request.setAttribute("paginaIrA", paginaIrA > 0 ? paginaIrA : "");
+        	request.setAttribute("cantidadPaginas", new int [cantidadPaginas]);
+        	request.setAttribute("numeroPaginas", cantidadPaginas);
+			
+			lista = oDaoCliente.listarClientes(oConexion, filtros,hasta);
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,6 +103,22 @@ public class ActionCliente {
 		datos.put("oCliente", oCliente);
 		
 		return datos;
+	}
+	
+	public Map consultarClientePorDocumento(int numeroDocumentoCliente,Map parametros) throws ClassNotFoundException, SQLException{
+		Map datos = new HashMap();
+		
+		Conexion oConexion = new Conexion();
+		Cliente oCliente = oDaoCliente.consularClientePorDocumento(numeroDocumentoCliente, parametros, oConexion);
+		datos.put("oCliente", oCliente);
+		
+		return datos;
+	}
+	
+	public Map eliminarCliente(int idCliente,Map parametros) throws ClassNotFoundException, SQLException{
+		Conexion oConexion = new Conexion();
+		oDaoCliente.eliminarCliente(idCliente, parametros, oConexion);
+		return parametros;
 	}
 	
 	  public void exportar(String sRutaDirectorioJasper, Map parametros, OutputStream out, boolean maps, String formato){
@@ -111,7 +152,7 @@ public class ActionCliente {
 		  	try {
 	            
 	    		Conexion oConexion = new Conexion();
-	    		List listaClientes = oDaoCliente.listarClientes(oConexion,filtros);
+	    		List listaClientes = oDaoCliente.listarClientes(oConexion,filtros,1);
 	    		
 				GenerarReporte.exportar(sRutaDirectorioJasper+"/reporteClientes.jasper", listaClientes, parametros, out, maps, formato);
 			} catch (JRException e) {

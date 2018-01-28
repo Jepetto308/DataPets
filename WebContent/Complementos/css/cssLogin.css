@@ -116,3 +116,8 @@ form[role=login] {
 /*    font-weight: bold;*/
         display: none;
 }     
+.btn-primary {
+    color: #fff !important;
+    background-color: #428bca !important;
+    border-color: #357ebd !important;
+}

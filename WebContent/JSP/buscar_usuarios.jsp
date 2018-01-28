@@ -9,7 +9,7 @@
 <%@ page import="Controllers.ControlAccesoPages" %>
 <%
     ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
-    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+	oControlAccesoPages.validatePemisions(request, response, oControlAccesoPages.getMapPermisos(),oControlAccesoPages.getNoPermisos());
 %>
 
 
@@ -36,40 +36,44 @@
         <c:set var="context" value="${pageContext.request.contextPath}" />
         
         <div class="contenedor-usuario">
-            <form class="form-empleados">
+            <form class="form-empleados" name="formLista" id="formLista" method="POST" action="${context}/ControlUsuario">
+            	<input type="hidden" id="accion" name="accion"> 
+            	<input type="hidden" id="hidUsuario" name="hidUsuario" value="">
+            
                 <div class="titulo-lista"><h2>Listado de Usuarios</h2></div>
                 
 		<div class="div-lCitas">
-			<input class="Ilogin-Usu" minlength="6" maxlength="15" type="text" name="login">
+			<input class="Ilogin-Usu" minlength="6" maxlength="15" type="text" name="f_login" value="<c:out value="${f_login}" />">
             <label class="LfiltroCita">Login:</label>
                
-            <input class="Iidentificacion-usu" minlength="6" maxlength="15" type="text" name="identificacion">
+            <input class="Iidentificacion-usu" minlength="6" maxlength="15" type="text" name="f_identificacion" value="<c:out value="${f_identificacion}" />">
             <label class="LfiltroCita">Identificacion:</label>
                 
-            <input class="Inom-persona" minlength="15" maxlength="45" type="text" name="nombrePersona">
-            <label class="LfiltroCita">Nombre de Persona:</label>
+<!--             <input class="Inom-persona" minlength="15" maxlength="45" type="text" name="f_nombrePersona"> -->
+<!--             <label class="LfiltroCita">Nombre de Persona:</label> -->
                  
-            <select class="select-rol" name="rol" >
-            	<option>[Todos]</option>
-                <option>Baño</option>
-                <option>Cepillado</option>
-                <option>Baño y Cepillado</option>
+            <select class="select-rol" name="f_codigoRol" >
+            	<option value="">[Todos]</option>
+                <c:forEach items="${listaRoles}" var="objRol">
+                   	<option value="${objRol.codRol}" <c:if test="${objRol.codRol == f_codigoRol}"> selected</c:if> >
+                   		<c:out value="${objRol.nombreRol}"></c:out> 
+                   	</option>
+                </c:forEach>
 			</select>
             <label class="LfiltroCita">Rol:</label>
                 
-            <select class="estado-usuarioS" name="estadoUsuario">
-				<option>Todos</option>
-                <option>Abierto</option>
-                <option>Confirmado</option>
-                <option>Anulado</option>
-                <option>Todos</option>
+            <select class="estado-usuarioS" name="f_estadoUsuario">
+				<option value="">Todos</option>
+                <option value="">Activo</option>
+                <option value="">Confirmado</option>
+                <option value="">Anulado</option>
 			</select>
             <label class="LfiltroCita">Estado usuario:</label>
 		</div>   
          
-         <a href="#" class="boton-formFiltrarC">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
-         <button type="submit" class="btn-exportarUsuario">Exportar <i class="exportar fa fa-clipboard" aria-hidden="true"></i></button>
-         <a href="editar_usuarios.jsp" class="boton-formularioC">Nuevo Usuario <i class="filtro fa fa-user-circle-o" aria-hidden="true"></i></a>
+         <a id="btnFiltrar" href="#" class="boton-formFiltrarC">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
+         <button type="button" id="exportar" class="btn-exportarUsuario">Exportar <i class="exportar fa fa-clipboard" aria-hidden="true"></i></button>
+         <a href="#" id="nuevo" class="boton-formularioC">Nuevo Usuario <i class="filtro fa fa-user-circle-o" aria-hidden="true"></i></a>
                 
     <table class="TablaRegistros-usuarios">
 	<tbody>
@@ -81,47 +85,30 @@
             <td  class="num-Identificacion">Numero de Identificacion</td>
             <td  class="nom-persona">Nombre de Persona</td>
 <!--             <td  class="info_adicional">Informacion Adicional</td> -->
-            <td  class="campo-modificar"><i class="modificarICO fa fa-wrench" aria-hidden="true"></i></td>
+<!--             <td  class="campo-modificar"><i class="modificarICO fa fa-wrench" aria-hidden="true"></i></td> -->
 		</tr>
 		
-		<c:forEach items="${listaUsuarios}" var="objUsuario">
-			<tr class="listadoEmpleado">
-	            <td class="listaEmp"><c:out value="${objUsuario.username}" /></td>
-	            <td class="listaEmp"><c:out value="${objUsuario.codigoRol}" /></td>
-	            <td class="listaEmp"><c:out value="${objUsuario.nombreRol}" /></td>
-<!-- 	            <td class="listaEmp">E</td> -->
-	            <td class="listaEmp"><c:out value="${objUsuario.numeroIdentificacion}" /></td>
-	            <td class="listaEmp"><c:out value="${objUsuario.nombre}" /> <c:out value="${objUsuario.apellidos}" /></td>
-<!-- 	            <td class="listaEmp">en la sucursal cartagena y sus negros</td> -->
-				<td class="modificar-datos"><a href="" class="modificar-datosA">Modificar</a></td>
-			</tr>
-		</c:forEach>
-		
-	</tbody>
-	</table>
-			</td>
-		</tr>
-		<tr>
-			<td align=right>
-        	<input ID="TextBox7" type='hidden' runat="server" name='navegador_numeroPaginas' value='158'> 
-            <input ID="TextBox8" type='hidden' runat="server" name='navegador_paginaActual' value='1'>
-            <input ID="TextBox9" type='hidden' runat="server" name='navegador_paginaInicial' value='1'>
-            <input ID="TextBox10" type='hidden' runat="server" name='navegador_paginaFinal' value='3'>
-            <table border='0'>
-            	<tr><td><font color='red'>
-					<b>1</b></font></td><td><a href='javascript:navegadorClick(2)'>2</a></td><td><a href='javascript:navegadorClick(3)'>3</a></td><td>...</td><td><a href='javascript:navegadorClick(2)'>»</a></td><td><a href='javascript:navegadorClick(158)'>»»</a></td>
-					<td>
-				    	<input ID="TextBox11" class="irA" type='button' runat="server" name='irA' value='Ir A' onclick='javascript: navegadorClick(this.form.navegador_pagina.value);'>
-				    </td>
+			<c:forEach items="${listaUsuarios}" var="objUsuario">
+				<tr class="listadoEmpleado" onclick="javascript:editarUsuario(<c:out value="${objUsuario.numeroIdentificacion}" />)">
+		            <td class="listaEmp"><c:out value="${objUsuario.username}" /></td>
+		            <td class="listaEmp"><c:out value="${objUsuario.codigoRol}" /></td>
+		            <td class="listaEmp"><c:out value="${objUsuario.nombreRol}" /></td>
+	<!-- 	            <td class="listaEmp">E</td> -->
+		            <td class="listaEmp"><c:out value="${objUsuario.numeroIdentificacion}" /></td>
+		            <td class="listaEmp"><c:out value="${objUsuario.nombre}" /> <c:out value="${objUsuario.apellidos}" /></td>
+	<!-- 	            <td class="listaEmp">en la sucursal cartagena y sus negros</td> -->
+	<!-- 				<td class="modificar-datos"><a href="" class="modificar-datosA">Modificar</a></td> -->
 				</tr>
-					</tbody>
-				</table>
-            </form>
+			</c:forEach>
+		</tbody>
+	</table>
+</form>
         </div>
         
     
 		<% // Importacion de JavaScript %>       
         <script src="Complementos/js/js_franwork/headroom.min.js"></script>
         <script src="Complementos/js/js_paginas/JSdataPets.js"></script>
+        <script src="Complementos/js/js_paginas/buscar_usuarios.js"></script>
     </body>
 </html>

@@ -5,13 +5,27 @@
  */
 package Business;
 
+import DAO.DaoPermisosUsuario;
 import DAO.DaoUsuario;
+import entity.Empleado;
+import entity.Filtro;
 import entity.Usuario;
+import net.sf.jasperreports.engine.JRException;
 import Utils.Conexion;
+import Utils.GenerarReporte;
+
 import java.io.FileNotFoundException;
+import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,9 +37,22 @@ public class ActionUsuario {
     private Usuario oUsuario = new Usuario();
     Conexion oConexion = new Conexion();
     
-    public boolean insertarUsuario(Usuario oUsuario) throws FileNotFoundException, ClassNotFoundException, SQLException{
-        Connection conn = oConexion.openConexion();
-        return daoUsuario.insertarUsuario(oUsuario, conn);
+    public Map insertarActualizarUsuario(Usuario oUsuario,HttpServletRequest request) throws FileNotFoundException, ClassNotFoundException, SQLException{
+    	Map datos = new HashMap();
+    	Connection conn = null;
+    	
+    	if(daoUsuario.existeUsuarioConNumeroIdentificacion(oUsuario.getIdUsuario())) {
+    		conn = oConexion.openConexion();
+    		daoUsuario.actualizarUsuario(oUsuario, conn,datos);
+    	}else {
+    		conn = oConexion.openConexion();
+    		daoUsuario.insertarUsuario(oUsuario, conn,datos);
+    	}
+        ActionRoles oActionRol = new ActionRoles();
+		datos.put("listaRoles", oActionRol.listarRoles(request));
+		datos.put("oUsuario", oUsuario);
+        
+        return datos;
    }
     
     public Usuario consultarUsuario(String numeroIdentificacion) throws ClassNotFoundException, SQLException{
@@ -35,12 +62,94 @@ public class ActionUsuario {
         return oUsuario;
     }
     
-    public List listarUsuarios() throws ClassNotFoundException, SQLException{
+    public Map consultarUsuarioVista(int idUsuario,Map parametros, HttpServletRequest request) throws ClassNotFoundException, SQLException{
+		Map datos = new HashMap();
+		
+		Conexion oConexion = new Conexion();
+		Connection conn = oConexion.openConexion();
+		oUsuario = daoUsuario.consultarUsuarioVista(idUsuario, conn);
+		
+		ActionRoles oActionRol = new ActionRoles();
+		datos.put("listaRoles", oActionRol.listarRoles(request));
+		
+		datos.put("oUsuario", oUsuario);
+		
+		return datos;
+	}
+    
+    public List listarUsuarios(HttpServletRequest request) throws ClassNotFoundException, SQLException{
         Connection conn = oConexion.openConexion();
-        List listaUsuarios = daoUsuario.listarUsuarios(conn);
+        List listaUsuarios = new ArrayList();
+        List<Filtro> filtros = new ArrayList();
+		
+		Filtro oFiltro = new Filtro();
+		String login = request.getParameter("f_login");
+		String identificacion = request.getParameter("f_identificacion");
+		String codigoRol = request.getParameter("f_codigoRol");
+		
+		if(login != null && !login.equals("")) {
+			oFiltro.setCampo("A.USERNAME");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(login+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_login", login);
+		}
+		
+		if(identificacion != null && !identificacion.equals("")) {
+			oFiltro = new Filtro();
+			oFiltro.setCampo("A.numero_identificacion");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(identificacion+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_identificacion", identificacion);
+		}
+		
+		if(codigoRol != null && !codigoRol.equals("")) {
+			oFiltro = new Filtro();
+			oFiltro.setCampo("A.codigo_rol");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(codigoRol+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_codigoRol", codigoRol);
+		}
+		
+		int paginaActual = request.getParameter("f_paginaActual") != null && !request.getParameter("f_paginaActual").equals("") ? 
+				Integer.parseInt(request.getParameter("f_paginaActual")) : 1;
+		int paginaIrA = request.getParameter("paginaIrA") != null && !request.getParameter("paginaIrA").equals("") ? 
+				Integer.parseInt(request.getParameter("paginaIrA")) : 0;
+		if(paginaIrA > 0) {
+			paginaActual = paginaIrA;
+		}
+		int tamanioPagina = 10;
+		int numeroRegistros = daoUsuario.numeroRegistrosUsuario(conn, filtros);
+		int cantidadPaginas = (new BigDecimal(""+numeroRegistros).divide(new BigDecimal("10"),0,0).intValue()); 
+		if(filtros.size() > 0 && cantidadPaginas <= 1) {
+			paginaActual = 0;
+		}
+		paginaActual = paginaActual >= 1 ? paginaActual : cantidadPaginas;
+		int hasta = (paginaActual >= 1 ? paginaActual - 1: 1) * tamanioPagina;
+		hasta = hasta >= 10 ? hasta : 0;
+		
+		request.setAttribute("f_paginaActual", paginaActual);
+		request.setAttribute("paginaIrA", paginaIrA > 0 ? paginaIrA : "");
+		request.setAttribute("cantidadPaginas", new int [cantidadPaginas]);
+		request.setAttribute("numeroPaginas", cantidadPaginas);
+		
+		 listaUsuarios = daoUsuario.listarUsuarios(oConexion.openConexion(),filtros,hasta);
+		 ActionRoles oActionRol = new ActionRoles();
+		 request.setAttribute("listaRoles", oActionRol.listarRoles(request));
         
         return listaUsuarios;
     }
+    
+    public Map eliminarUsuario(int idUsuario,Map parametros) throws ClassNotFoundException, SQLException{
+		Conexion oConexion = new Conexion();
+		daoUsuario.eliminarUsuario(idUsuario, parametros, oConexion);
+		return parametros;
+	}
     
     public boolean existeUsuarioByNumeroIdentificacion(String numeroIdentificacion) throws ClassNotFoundException, SQLException{
         return daoUsuario.existeUsuarioConNumeroIdentificacion(numeroIdentificacion);
@@ -55,5 +164,88 @@ public class ActionUsuario {
         oUsuario = daoUsuario.login(username, password, conn);
         return oUsuario;
     }   
+    
+    public void exportar(HttpServletRequest request,String sRutaDirectorioJasper, Map parametros, OutputStream out, boolean maps, String formato) throws ClassNotFoundException, SQLException{
+    	
+    	Connection conn = oConexion.openConexion();
+        List listaUsuarios = new ArrayList();
+        List<Filtro> filtros = new ArrayList();
+		
+		Filtro oFiltro = new Filtro();
+		String login = request.getParameter("f_login");
+		String identificacion = request.getParameter("f_identificacion");
+		
+		if(login != null && !login.equals("")) {
+			oFiltro.setCampo("A.USERNAME");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(login+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_login", login);
+		}
+		
+		if(identificacion != null && !identificacion.equals("")) {
+			oFiltro = new Filtro();
+			oFiltro.setCampo("A.numero_identificacion");
+			oFiltro.setOperador("LIKE");
+			oFiltro.setValor(identificacion+'%');
+			filtros.add(oFiltro);
+			
+			request.setAttribute("f_identificacion", identificacion);
+		}
+		
+		int paginaActual = request.getParameter("f_paginaActual") != null && !request.getParameter("f_paginaActual").equals("") ? 
+				Integer.parseInt(request.getParameter("f_paginaActual")) : 1;
+		int paginaIrA = request.getParameter("paginaIrA") != null && !request.getParameter("paginaIrA").equals("") ? 
+				Integer.parseInt(request.getParameter("paginaIrA")) : 0;
+		if(paginaIrA > 0) {
+			paginaActual = paginaIrA;
+		}
+		int tamanioPagina = 10;
+		int numeroRegistros = daoUsuario.numeroRegistrosUsuario(conn, filtros);
+		int cantidadPaginas = (new BigDecimal(""+numeroRegistros).divide(new BigDecimal("10"),0,0).intValue()); 
+		if(filtros.size() > 0 && cantidadPaginas <= 1) {
+			paginaActual = 0;
+		}
+		paginaActual = paginaActual >= 1 ? paginaActual : cantidadPaginas;
+		int hasta = (paginaActual >= 1 ? paginaActual - 1: 1) * tamanioPagina;
+		hasta = hasta >= 10 ? hasta : 0;
+		
+		request.setAttribute("f_paginaActual", paginaActual);
+		request.setAttribute("paginaIrA", paginaIrA > 0 ? paginaIrA : "");
+		request.setAttribute("cantidadPaginas", new int [cantidadPaginas]);
+		request.setAttribute("numeroPaginas", cantidadPaginas);
+		
+		 listaUsuarios = daoUsuario.listarUsuarios(oConexion.openConexion(),filtros,1000000);
+	  	
+	  	try {
+			GenerarReporte.exportar(sRutaDirectorioJasper+"/reporteUsuarios.jasper", listaUsuarios, parametros, out, maps, formato);
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public List listaPermisosUsuario(HttpServletRequest request) throws ClassNotFoundException, SQLException {
+    	List listaPermisosUsuario = new ArrayList();
+    	DaoPermisosUsuario oDaoPermisosUsuario = new DaoPermisosUsuario();
+    	String user = request.getParameter("username");
+    	String modulo = request.getParameter("modulo");
+    	
+    	listaPermisosUsuario = oDaoPermisosUsuario.listarPermisosUsuarios(oConexion, user,modulo);
+    	
+    	return listaPermisosUsuario;
+    	
+    }
+    
+    public List listaPermisos(HttpServletRequest request) throws ClassNotFoundException, SQLException {
+    	List listaPermisos = new ArrayList();
+    	DaoPermisosUsuario oDaoPermisosUsuario = new DaoPermisosUsuario();
+    	String user = request.getParameter("username");
+    	
+    	listaPermisos = oDaoPermisosUsuario.listarControles(oConexion, user);
+    	
+    	return listaPermisos;
+    	
+    }
     
 }

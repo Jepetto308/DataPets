@@ -15,6 +15,15 @@ $(document).ready(function(){
 		$("#accion").val("N");
 		$("#formCliente").submit();
 	});
+	
+	$("#btnEliminar").click(function (){
+		
+		var eliminar = confirm("Esta seguro de eliminar este Registro?");
+		if(!eliminar){return;}
+		
+		$("#accion").val("E");
+		$("#formCliente").submit();
+	});
 
 	$("#emergentePais").click(function (event){
 		event.preventDefault();
@@ -95,13 +104,6 @@ function modalMunicipio() {
 	var emer = window.open(contexto+"/ControlMunicipio",'_blank','left=120,top=100,width=980,height=440');
 }
 
-
-
-
-
-
-
-
 /*modal pais de cliente*/
 var paginamodal;
 function modalCliente_pais() {
@@ -113,8 +115,10 @@ paginamodal = window.open (contexto+"/ControlPais",'_blank','left=120,top=100,wi
 var paginamodal;
 function modalCliente_municipio() {
 paginamodal = window.open ('modal_municipio_cliente.jsp','_blank','left=120,top=100,width=980,height=440');
-
 }
+
+
+
 
 /*Bloque de input*/
 

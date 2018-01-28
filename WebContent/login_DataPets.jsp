@@ -72,12 +72,7 @@
                     <span class="glyphicon glyphicon-exclamation-sign"></span> 
                     <strong>Error</strong> dede ingresar el USUARIO y la CONTRASEÑA</div>
               </div>
-             
-             
                
-             
-          
-          
 	</section>
         
        

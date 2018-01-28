@@ -8,7 +8,7 @@
 <%@ page import="Controllers.ControlAccesoPages" %>
 <%
     ControlAccesoPages oControlAccesoPages = new ControlAccesoPages();
-    oControlAccesoPages.validatePemisions(request, response, "ROOT");
+	oControlAccesoPages.validatePemisions(request, response, oControlAccesoPages.getMapPermisos(),oControlAccesoPages.getNoPermisos());
 %>
 
 <!DOCTYPE html>
@@ -31,18 +31,18 @@
     <body class="fondo-menu">
        
         <div class="contenedor-clienteIC">
-            <form class="form-usuarios">
+            <form class="form-usuarios" id="formLista" name="formLista">
             
             <c:set var="context" value="${pageContext.request.contextPath}" />
         	<input type="hidden" value="" id="codigoMunicipioRetorno">
             
-                <div class="titulo-lista"><h2>Lista de Municipios para clientes</h2></div>
+                <div class="titulo-lista"><h2>Lista de Municipios</h2></div>
                 
                 <label class="Lfiltro1-MmC">Codigo Municipio:</label>
-                <input class="filtrar1-MmC" minlength="3" maxlength="4" name="codigoMunicipio">
+                <input class="filtrar1-MmC" minlength="3" maxlength="5" name="f_codigoMunicipio" id="f_codigoMunicipio" value="<c:out value="${f_codigoMunicipio}" />">
                 <label class="Lfiltro2-MmC">Nombre Municipio:</label>
-                <input class="filtrar2-MmC" minlength="2" maxlength="25" name="nombreMunicipio">
-                <a   href="#" class="boton-formFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
+                <input class="filtrar2-MmC" minlength="2" maxlength="25" name="f_nombreMunicipio" id="f_nombreMunicipio" value="<c:out value="${f_nombreMunicipio}" />">
+                <a   href="#" class="boton-formFiltrar" id="btnFiltrar">Filtrar <i class="filtro fa fa-filter" aria-hidden="true"></i></a>
 <!--                <button type="submit" class="btn-exportarUsuario">Exportar <i class="exportar fa fa-clipboard" aria-hidden="true"></i></button>
                 <a   href="#" class="boton-formulario">Nuevo Usuario <i class="fa fa-user" aria-hidden="true"></i> </a>-->
                 
@@ -53,48 +53,26 @@
 			
 			<td class="cod_Cliente">Codigo Municipio</td>
 			<td  class="Nom_ClienteIcitas">Nombre Municipio</td>
-            <td  class="campo-modificar"><i class="modificarICO fa fa-recycle" aria-hidden="true"></i></td>
+<!--             <td  class="campo-modificar"><i class="modificarICO fa fa-recycle" aria-hidden="true"></i></td> -->
 			 
 		</tr>
 		
 		<c:forEach items="${listaMunicipio}" var="objMunicipio">
-	        <tr class="listadoUsuario">
+	        <tr class="listadoUsuario listadoEmpleado" onclick="javascript:recuperarMunicipio('<c:out value="${objMunicipio.codigoMunicipio}"/>')">
 	            <td class="listaUsu"><c:out value="${objMunicipio.codigoMunicipio}"/></td>
 	            <td class="listaUsu" id="nombreMunicipio<c:out value="${objMunicipio.codigoMunicipio}"/>" ><c:out value="${objMunicipio.nombreMunicipio}"/></td>
-				<td class="modificar-datos"><a href="#" class="modificar-datosA" onclick="javascript:recuperarPais('<c:out value="${objMunicipio.codigoMunicipio}"/>')">Recuperar</a></td>
+<%-- 				<td class="modificar-datos"><a href="#" class="modificar-datosA" onclick="javascript:recuperarPais('<c:out value="${objMunicipio.codigoMunicipio}"/>')">Recuperar</a></td> --%>
 			</tr>
 		</c:forEach>		
-			
-<td class="modificar-datos"><a href="" class="modificar-datosA">Recuperar</a></td>
-		</tr>
-
-	
-
 	</tbody>
 	</table>
-			</td>
-		</tr>
-		<tr>
-			<td align=right>
-        	<input ID="TextBox7" type='hidden' runat="server" name='navegador_numeroPaginas' value='158'> 
-                <input ID="TextBox8" type='hidden' runat="server" name='navegador_paginaActual' value='1'>
-                <input ID="TextBox9" type='hidden' runat="server" name='navegador_paginaInicial' value='1'>
-                <input ID="TextBox10" type='hidden' runat="server" name='navegador_paginaFinal' value='3'>
-                <table border='0'><tr><td><font color='red'>
-                <b>1</b></font></td><td><a href='javascript:navegadorClick(2)'>2</a></td><td><a href='javascript:navegadorClick(3)'>3</a></td><td>...</td><td><a href='javascript:navegadorClick(2)'>»</a></td><td><a href='javascript:navegadorClick(158)'>»»</a></td><td>
-                            <input ID="TextBox11" class="irA" type='button' runat="server" name='irA' value='Ir A' onclick='javascript: navegadorClick(this.form.navegador_pagina.value);'>
-                                      
-			</td>
-		</tr>
-	</tbody>
-</table>
-            </form>
-        </div>
+	
+	<jsp:include page="paginador.jsp"></jsp:include>
+	
+</form>
+</div>
         
       
-	
-       
-    
        
         <script src="Complementos/js/js_franwork/headroom.min.js"></script>
         <script src="Complementos/js/js_franwork/jQuery3.2.js"></script>

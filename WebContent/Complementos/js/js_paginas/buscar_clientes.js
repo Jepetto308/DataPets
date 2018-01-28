@@ -1,23 +1,23 @@
 $(document).ready(function(){
 	
 	$("#exportar").click(function (){
-		$("#accion").val("E");
-		$("#formListaCliente").submit();
+		$("#accion").val("EX");
+		$("#formLista").submit();
 	});
 	
 	$("#nuevo").click(function (){
 		$("#accion").val("N");
-		$("#formListaCliente").submit();
+		$("#formLista").submit();
 	});
 	
 	$("#btnFiltrar").click(function (){
 		$("#accion").val("L");
-		$("#formListaCliente").submit();
+		$("#formLista").submit();
 	});
 });
 
 function editarCliente(idCliente){
 	$("#accion").val("D");
 	$("#hidCliente").val(idCliente);
-	$("#formListaCliente").submit();
+	$("#formLista").submit();
 }

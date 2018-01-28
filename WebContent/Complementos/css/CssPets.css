@@ -150,6 +150,7 @@ a{
 .logo {
     display: inline-block;
     margin-right: 1em;
+    cursor: pointer;
 }
 
 .navH .logo img{
@@ -1493,34 +1494,16 @@ width:180px;
   -moz-box-shadow: 1px 0px 3px 2px #080808;
 }
 
-.input-calendario{
-font-family: 'Nunito Sans', sans-serif;
-    display:table-cell;
-    background: #ffffff;
-    color:black;
-    width: 284px;
-    height: 22px;
-    margin-top: -4px;  
-    margin-left: 230px;
-    position: absolute;
-    text-align:center;
-    font-weight: bold;
-    font-size: 10pt;
-   box-shadow: 1px 0px 2px 1px #080808;
-    -webkit-box-shadow: 1px 0px 2px 1px #080808;
-    -moz-box-shadow: 1px 0px 2px 1px #080808;
-     border: solid 1px #007fff;  
-      
-}
+.input-calendario{font-family: 'Nunito Sans', sans-serif;display:table-cell;background: #ffffff;color:black;width: 190px;height: 22px;margin-top: -4px;margin-left: 230px;position: absolute;text-align:center;font-weight: bold;font-size: 10pt;box-shadow: 1px 0px 2px 1px #080808;-webkit-box-shadow: 1px 0px 2px 1px #080808;-moz-box-shadow: 1px 0px 2px 1px #080808;border: solid 1px #007fff;}
 
 .ui-datepicker-trigger{
      width: 30px;
-    height: 27px;
-    float: right;
-    margin-right:235px ;
-    margin-top: -5px;
-    cursor: pointer;
-    border-radius: 3px;
+     height: 27px;
+     float: right;
+     margin-right: 260px;
+     margin-top: -8px;
+     cursor: pointer;
+     border-radius: 3px;
 }
 
 
@@ -2056,6 +2039,26 @@ font-family: 'Nunito Sans', sans-serif;
  padding-left: 3px;
 }
 
+#disponible{
+	font-family: 'Nunito Sans', sans-serif;
+	background: transparent;
+    color: black;
+    height: 22px;
+    display: none;
+    margin-top: -4px;
+    border: none;
+    margin-left: 455px;
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+    /* box-shadow: 1px 0px 2px 1px #080808; */
+    /* -webkit-box-shadow: 1px 0px 2px 1px #080808; */
+    -moz-box-shadow: 1px 0px 2px 1px #080808;
+    /* border: solid 1px #007fff; */
+    padding: 2px;
+}
+
 /*------------------- Formulario USUARIO--------------*/
 
 .formulario-usuarios{
@@ -2068,6 +2071,25 @@ font-family: 'Nunito Sans', sans-serif;
   -webkit-box-shadow: 2px 1px 4px 3px #080808;
   -moz-box-shadow: 2px 1px 4px 3px #080808;
     
+}
+
+#verPass{
+	font-family: 'Nunito Sans', sans-serif;
+	display: block;
+	background: #ffffff;
+	color: black;
+	height: 22px;
+	margin-top: -4px;
+	margin-left: 465px;
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	font-size: 10pt;
+	box-shadow: 1px 0px 2px 1px #080808;
+	-webkit-box-shadow: 1px 0px 2px 1px #080808;
+	-moz-box-shadow: 1px 0px 2px 1px #080808;
+	border: solid 1px #007fff;
+	padding: 2px;
 }
 
 .Iform-loginUsuario{
@@ -2118,9 +2140,9 @@ font-family: 'Nunito Sans', sans-serif;
     display:block;
     background: #ffffff;
     color:black;
-    width: 360px;
+    width: 225px;
     height: 22px;
-    margin-top: -4px;  
+    margin-top: -4px;
     margin-left: 230px;
     position: absolute;
     text-align:center;
@@ -2129,7 +2151,7 @@ font-family: 'Nunito Sans', sans-serif;
     box-shadow: 1px 0px 2px 1px #080808;
     -webkit-box-shadow: 1px 0px 2px 1px #080808;
     -moz-box-shadow: 1px 0px 2px 1px #080808;
-      border: solid 1px #007fff;  
+    border: solid 1px #007fff;
 }
 
 .IformUsu-empleadoS{
@@ -2749,7 +2771,7 @@ font-family: 'Nunito Sans', sans-serif;
     left: 40px;
     position: absolute;
     font-family: 'Nunito Sans', sans-serif;
-    border:#2bbbd4 solid 0.5px;
+/*     border:#2bbbd4 solid 0.5px; */
 }
 
 .filtrar2-MmC{
@@ -2771,4 +2793,41 @@ font-family: 'Nunito Sans', sans-serif;
 	cursor: pointer;
 }
 
- 
+ .horaFechas{
+	font-family: 'Nunito Sans', sans-serif;
+    display: table-cell;
+    background: #ffffff;
+    color: black;
+    width: 25px;
+    height: 22px;
+    margin-top: -4px;
+    margin-left: 430px;
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+    box-shadow: 1px 0px 2px 1px #080808;
+    -webkit-box-shadow: 1px 0px 2px 1px #080808;
+    -moz-box-shadow: 1px 0px 2px 1px #080808;
+    border: solid 1px #007fff;
+}
+
+.minutosFechas{
+	font-family: 'Nunito Sans', sans-serif;
+    display: table-cell;
+    background: #ffffff;
+    color: black;
+    width: 25px;
+    height: 22px;
+    margin-top: -4px;
+    margin-left: 465px;
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+    box-shadow: 1px 0px 2px 1px #080808;
+    -webkit-box-shadow: 1px 0px 2px 1px #080808;
+    -moz-box-shadow: 1px 0px 2px 1px #080808;
+    border: solid 1px #007fff;
+}
+
